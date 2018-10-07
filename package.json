@@ -48,6 +48,7 @@
     "express": "^4.16.3",
     "gphoto2": "^0.3.0",
     "jquery": "^3.3.1",
+    "pi-camera": "^1.2.1",
     "popper.js": "^1.14.1",
     "rpi-gpio": "^0.9.1",
     "sharp": "^0.20.1",
