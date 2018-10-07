@@ -33,7 +33,8 @@ class Camera {
 	*/
 	initialize(callback) {
         this.camera = new PiCamera({
-            mode: 'photo'
+            mode: 'photo',
+			nopreview: true
         });
 
 		callback(true);
@@ -60,12 +61,11 @@ class Camera {
 		const filepath = utils.getPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const webFilepath = utils.getWebAppPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const maxImageSize = utils.getConfig().maxImageSize ? utils.getConfig().maxImageSize : 1500;
-		const keep = utils.getConfig().gphoto2.keep === true ?  true : false;
 
-
+		myCamera.setOutput(filepath);
         myCamera.snap()
-            .then((result) => {
-                sharp(result) // resize image to given maxSize
+            .then(() => {
+                sharp(filepath) // resize image to given maxSize
                     .resize(Number(maxImageSize)) // scale width to 1500
                     .toFile(filepath, function(err) {
 
@@ -76,7 +76,7 @@ class Camera {
                         }
                     });
             })
-            .catch((error) => {
+            .catch((err) => {
                 self.camera = undefined;	// needs to be reinitialized
                 callback(-2, 'connection to camera failed', err);
                 return;
