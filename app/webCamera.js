@@ -19,7 +19,7 @@
  */
 
 import sharp from 'sharp';
-import PiCamera from 'pi-camera';
+import NodeWebcam from 'node-webcam';
 
 import utils from "./utils.js";
 
@@ -32,12 +32,20 @@ class Camera {
 	* Detect and configure camera
 	*/
 	initialize(callback) {
-        this.camera = new PiCamera({
-            mode: 'photo',
-			nopreview: true
-        });
+        var opts = {
+            width: 1280,
+            height: 720,
+            quality: 100,
+            delay: 0,
+            saveShots: true,
+            output: "jpeg",
+            device: false,
+            callbackReturn: "location",
+            verbose: false
+        };
+        this.camera = NodeWebcam.create( opts );
 
-		callback(true);
+        callback(true);
 	}
 
 	
@@ -47,7 +55,7 @@ class Camera {
 	}
 
 	isConnected(callback) {
-        callback(true); //TODO: more sufficient check if camera is connected
+		if (callback) callback(true);
 	}
 
 	takePicture(callback) {
@@ -58,30 +66,29 @@ class Camera {
 			return;
 		}
 
-		const filepathTmp = utils.getPhotosDirectory() + "tmp/img_" + utils.getTimestamp() + ".jpg";
 		const filepath = utils.getPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const webFilepath = utils.getWebAppPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const maxImageSize = utils.getConfig().maxImageSize ? utils.getConfig().maxImageSize : 1500;
 
-		self.camera.set('output', filepathTmp);
-        self.camera.snap()
-            .then(() => {
-                sharp(filepathTmp) // resize image to given maxSize
-                    .resize(Number(maxImageSize)) // scale width to 1500
-                    .toFile(filepath, function(err) {
+        self.camera.capture( "test_picture", function( err, data ) {
+			if (err) {
+				self.camera = undefined;	// needs to be reinitialized
+				callback(-2, 'connection to camera failed', err);
+				return;
+			} 
 
-                        if (err) {
-                            callback(-3, 'resizing image failed', err)
-                        } else {
-                            callback(0, filepath, webFilepath);
-                        }
-                    });
-            })
-            .catch((err) => {
-                self.camera = undefined;	// needs to be reinitialized
-                callback(-2, 'connection to camera failed', err);
-                return;
-            });
+			sharp(data) // resize image to given maxSize
+				.resize(Number(maxImageSize)) // scale width to 1500
+				.toFile(filepath, function(err) {
+					
+				if (err) {
+					callback(-3, 'resizing image failed', err)
+				} else {
+					callback(0, filepath, webFilepath);
+				}
+			});
+
+		});
 
 	}
 
