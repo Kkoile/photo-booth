@@ -58,14 +58,15 @@ class Camera {
 			return;
 		}
 
+		const filepathTmp = utils.getPhotosDirectory() + "tmp/img_" + utils.getTimestamp() + ".jpg";
 		const filepath = utils.getPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const webFilepath = utils.getWebAppPhotosDirectory() + "img_" + utils.getTimestamp() + ".jpg";
 		const maxImageSize = utils.getConfig().maxImageSize ? utils.getConfig().maxImageSize : 1500;
 
-		myCamera.setOutput(filepath);
-        myCamera.snap()
+		self.camera.set('output', filepathTmp);
+        self.camera.snap()
             .then(() => {
-                sharp(filepath) // resize image to given maxSize
+                sharp(filepathTmp) // resize image to given maxSize
                     .resize(Number(maxImageSize)) // scale width to 1500
                     .toFile(filepath, function(err) {
 
