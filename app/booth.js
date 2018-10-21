@@ -110,7 +110,7 @@ function trigger() {
 
         new Promise(function(resolve) {
             try {
-              var sPath = require("os").homedir() + '/Dropbox-Uploader/dropbox_uploader.sh';
+                var sPath = '/home/pi/Dropbox-Uploader/dropbox_uploader.sh';
                 cp.spawn(sPath, ['upload', message1, './']);
             } catch (err) {
                 //do nothing
