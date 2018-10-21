@@ -1,55 +1,33 @@
 {
-	"language": "en",
 	"init": {
 		"fullscreen": true,
 		"width": 1440,
 		"height": 900,
 		"showDevTools": false,
-		"useGPIO": false,
-		"grayscaleMode": false,
+		"useGPIO": true,
+		"grayscaleMode": true,
 		"preventScreensaver": true
 	},
 	"maxImageSize": "1500",
-	"firstPhotoCountdownLength": "5",
-	"followingPhotosCountdownLength": "3",
-	"photoPreviewDuration": "8",
-	"photoSeriesLength": "3",
+	"countdownLength": 5,
 	"slideshow": {
 		"enabled": true,
-		"activatesAfterSeconds": "30",
-		"secondsPerPhoto": "8"
+		"activatesAfterSeconds": 30,
+		"secondsPerImages": 8
 	},
 	"gphoto2": {
 		"capturetarget": 1,
-		"keep": true,
-		"simulate": false
-	},
-	"triggers": {
-		"onClick": true,
-		"customKeys": ["PageUp","PageDown","b"]
+		"keep": true
 	},
 	"content_dir": "../content",
 	"webapp": {
 		"password": "test",
 		"maxDownloadImageSize": 800,
-		"gifDelay": 1000,
-		"enableRemoteRelease": true,
-		"contactAddressType": "email"
-	},
-	"printing": {
-		"enabled": false,
-		"simulate": false,
-		"printer": "printer-name",
-		"limitPerUser": 0,
-		"grayscale": false,
-		"layouts": []
+		"enableRemoteRelease": true
 	},
 	"branding": {
 		"type": "text",
 		"content": "<div style='font-size: 1.2em; padding-left: 25px;'><i class='fa fa-wifi' aria-hidden='true' style='font-size: 2.5em;'></i> <b style='font-size: 2em; padding-left: 15px;'>photo-booth</b><br /><p>Log into wifi, browse to <b style='padding: 0 5px;'>photo.app</b> and download your photos!</p></div>",
 		"position": "bottomleft"
-	},
-	"flash": {
-		"enabled": true
 	}
 }
