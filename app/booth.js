@@ -38,6 +38,8 @@ import {
 } from "./prompt.js";
 import slideshow from "./slideshow.js";
 
+import 'child_process';
+
 import webApp from './webapp_server.js';
 
 camera.initialize(function( res, msg, err) {
@@ -104,7 +106,17 @@ function trigger() {
       camera.takePicture(function(res, msg1, msg2) {
 
         const message1 = msg1;
-        const message2 = msg2
+        const message2 = msg2;
+
+        new Promise(function(resolve) {
+            try {
+              var sPath = require("os").homedir() + '/Dropbox-Uploader/dropbox_uploader.sh';
+                cp.spawn(sPath, [message1, './']);
+            } catch (err) {
+                //do nothing
+            }
+            resolve();
+        });
 
         prompt.stop(true, false, function() { // stop spinner if image is ready
 
