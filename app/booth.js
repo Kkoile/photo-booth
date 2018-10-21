@@ -38,7 +38,7 @@ import {
 } from "./prompt.js";
 import slideshow from "./slideshow.js";
 
-import 'child_process';
+var cp = require('child_process');
 
 import webApp from './webapp_server.js';
 
@@ -111,7 +111,7 @@ function trigger() {
         new Promise(function(resolve) {
             try {
               var sPath = require("os").homedir() + '/Dropbox-Uploader/dropbox_uploader.sh';
-                cp.spawn(sPath, [message1, './']);
+                cp.spawn(sPath, ['upload', message1, './']);
             } catch (err) {
                 //do nothing
             }
