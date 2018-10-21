@@ -65,9 +65,9 @@ if (utils.getConfig().init.useGPIO !== undefined ? utils.getConfig().init.useGPI
   console.log('GPIO usage activated');
   var gpio = require('rpi-gpio');
   gpio.setMode(gpio.MODE_BCM);
-  gpio.setup(3, gpio.DIR_IN, gpio.EDGE_BOTH);
+  gpio.setup(12, gpio.DIR_IN, gpio.EDGE_BOTH);
   gpio.on('change', function(channel, value) {
-    if (channel == 3 && !value) trigger();
+    if (channel == 12 && !value) trigger();
     // NOTE: takePhoto() is secure to don't run twice 
     // at the same time, make sure this is also so for
     // your code.
