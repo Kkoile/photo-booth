@@ -104,6 +104,7 @@ class Utils {
 
     // initalized the depending directories
     this.getPhotosDirectory();
+    this.getVideosDirectory();
     this.getWebAppPhotosDirectory();
 
     return this.contentDir;
@@ -117,6 +118,16 @@ class Utils {
       return this.photosDir;
     }
     return this.photosDir;
+  }
+
+  getVideosDirectory() {
+    if (this.videosDir === undefined) {
+      const videosDir = path.join(this.contentDir, "videos/");
+      if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir);
+      this.videosDir = videosDir;
+      return this.videosDir;
+    }
+    return this.videosDir;
   }
 
   getWebAppPhotosDirectory() {
