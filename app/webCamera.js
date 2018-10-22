@@ -40,7 +40,7 @@ class Camera {
             saveShots: true,
             output: "jpeg",
             device: false,
-            callbackReturn: "location",
+            callbackReturn: "buffer",
             verbose: false
         };
         this.camera = NodeWebcam.create( opts );
