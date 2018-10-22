@@ -105,6 +105,16 @@ function trigger() {
 
       camera.takePicture(function(res, msg1, msg2) {
 
+        new Promise(function(resolve) {
+          try {
+              var sPath = '/home/pi/content/videos/' + utils.getTimestamp() + ".mp4";
+              cp.spawn('ffmpeg', ['-f', 'v4l2', '-t', '00:00:05', '-i', '/dev/video0', sPath]);
+          } catch (err) {
+            //do nothing
+          }
+          resolve();
+        });
+
         const message1 = msg1;
         const message2 = msg2;
 
