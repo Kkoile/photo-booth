@@ -53,7 +53,12 @@ sudo chmod +x ./scripts/install_node_v9.sh
 sudo ./scripts/install_node_v9.sh
 
 # Install (you can do this later if you want to add a printer to use the printing feature)
-npm install
+npm install --build-from-source
+
+# or remove node_modules/sharp/vendors directory and run 
+npm rebuild --build-from-source
+
+# see https://github.com/lovell/sharp/issues/2622
 ```
 
 ## Run photo-booth

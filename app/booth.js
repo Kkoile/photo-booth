@@ -1,20 +1,20 @@
-/* 
- * This file is part of "photo-booth" 
+/*
+ * This file is part of "photo-booth"
  * Copyright (c) 2018 Philipp Trenz
  *
  * For more information on the project go to
  * <https://github.com/philipptrenz/photo-booth>
- * 
- * This program is free software: you can redistribute it and/or modify  
- * it under the terms of the GNU General Public License as published by  
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, version 3.
  *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License 
+ * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -28,12 +28,12 @@ import 'bootstrap';
 
 import utils from "./utils.js";
 import camera from "./camera.js";
-import { 
-  SpinnerPrompt, 
-  CountdownPrompt, 
-  PreviewPrompt, 
-  CameraErrorPrompt, 
-  CameraErrorOnStartupPrompt, 
+import {
+  SpinnerPrompt,
+  CountdownPrompt,
+  PreviewPrompt,
+  CameraErrorPrompt,
+  CameraErrorOnStartupPrompt,
   SharpErrorPrompt
 } from "./prompt.js";
 import slideshow from "./slideshow.js";
@@ -67,10 +67,10 @@ if (utils.getConfig().init.useGPIO !== undefined ? utils.getConfig().init.useGPI
   console.log('GPIO usage activated');
   var gpio = require('rpi-gpio');
   gpio.setMode(gpio.MODE_BCM);
-  gpio.setup(12, gpio.DIR_IN, gpio.EDGE_BOTH);
+  gpio.setup(15, gpio.DIR_IN, gpio.EDGE_BOTH);
   gpio.on('change', function(channel, value) {
-    if (channel == 12 && !value) trigger();
-    // NOTE: takePhoto() is secure to don't run twice 
+    if (channel == 15 && !value) trigger();
+    // NOTE: takePhoto() is secure to don't run twice
     // at the same time, make sure this is also so for
     // your code.
   });
@@ -118,16 +118,6 @@ function trigger() {
 
         const message1 = msg1;
         const message2 = msg2;
-
-        new Promise(function(resolve) {
-            try {
-                var sPath = '/home/pi/Dropbox-Uploader/dropbox_uploader.sh';
-                cp.spawn(sPath, ['upload', message1, './']);
-            } catch (err) {
-                //do nothing
-            }
-            resolve();
-        });
 
         prompt.stop(true, false, function() { // stop spinner if image is ready
 
@@ -189,7 +179,7 @@ function trigger() {
     });
 
   }
-  
+
 }
 
 /*
