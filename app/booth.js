@@ -41,6 +41,8 @@ import slideshow from "./slideshow.js";
 var cp = require('child_process');
 
 import webApp from './webapp_server.js';
+import fs from "fs";
+import dropboxV2Api from 'dropbox-v2-api';
 
 camera.initialize(function( res, msg, err) {
   if (!res) {
@@ -51,6 +53,9 @@ camera.initialize(function( res, msg, err) {
   }
 });
 
+const dropbox = dropboxV2Api.authenticate({
+  token: process.env.DROPBOX_TOKEN
+});
 
 /*
  * Trigger photo when clicking / touching anywhere at the screen
@@ -118,6 +123,30 @@ function trigger() {
 
         const message1 = msg1;
         const message2 = msg2;
+
+        new Promise(function(resolve) {
+          try {
+            const imagePathElements = message1.split('/');
+            const imageName = imagePathElements[imagePathElements.length - 1];
+            dropbox({
+              resource: 'files/upload',
+              parameters: {
+                path: imageName
+              },
+              readStream: fs.createReadStream(message1)
+            }, (err, result, response) => {
+              if (err) {
+                console.error(err);
+                return;
+              }
+              console.log('uploaded')
+            });
+
+          } catch (err) {
+            //do nothing
+          }
+          resolve();
+        });
 
         prompt.stop(true, false, function() { // stop spinner if image is ready
 
