@@ -66,14 +66,14 @@ $( "body" ).click(function() {
 if (utils.getConfig().init.useGPIO !== undefined ? utils.getConfig().init.useGPIO : true) {
   console.log('GPIO usage activated');
   var gpio = require('rpi-gpio');
-  gpio.setMode(gpio.MODE_BCM);
-  gpio.setup(12, gpio.DIR_IN, gpio.EDGE_BOTH);
   gpio.on('change', function(channel, value) {
-    if (channel == 12 && !value) trigger();
+    if (!!value) trigger();
     // NOTE: takePhoto() is secure to don't run twice 
     // at the same time, make sure this is also so for
     // your code.
   });
+  gpio.setup(10, gpio.DIR_IN, gpio.EDGE_BOTH);
+
 }
 
 const countdownLength = (typeof utils.getConfig().countdownLength == 'number') ? utils.getConfig().countdownLength : 5;
@@ -118,16 +118,6 @@ function trigger() {
 
         const message1 = msg1;
         const message2 = msg2;
-
-        new Promise(function(resolve) {
-            try {
-                var sPath = '/home/pi/Dropbox-Uploader/dropbox_uploader.sh';
-                cp.spawn(sPath, ['upload', message1, './']);
-            } catch (err) {
-                //do nothing
-            }
-            resolve();
-        });
 
         prompt.stop(true, false, function() { // stop spinner if image is ready
 
