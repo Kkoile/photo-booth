@@ -1,20 +1,20 @@
-/* 
- * This file is part of "photo-booth" 
+/*
+ * This file is part of "photo-booth"
  * Copyright (c) 2018 Philipp Trenz
  *
  * For more information on the project go to
  * <https://github.com/philipptrenz/photo-booth>
- * 
- * This program is free software: you can redistribute it and/or modify  
- * it under the terms of the GNU General Public License as published by  
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, version 3.
  *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License 
+ * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -28,12 +28,12 @@ import 'bootstrap';
 
 import utils from "./utils.js";
 import camera from "./camera.js";
-import { 
-  SpinnerPrompt, 
-  CountdownPrompt, 
-  PreviewPrompt, 
-  CameraErrorPrompt, 
-  CameraErrorOnStartupPrompt, 
+import {
+  SpinnerPrompt,
+  CountdownPrompt,
+  PreviewPrompt,
+  CameraErrorPrompt,
+  CameraErrorOnStartupPrompt,
   SharpErrorPrompt
 } from "./prompt.js";
 import slideshow from "./slideshow.js";
@@ -73,7 +73,7 @@ if (utils.getConfig().init.useGPIO !== undefined ? utils.getConfig().init.useGPI
   var gpio = require('rpi-gpio');
   gpio.on('change', function(channel, value) {
     if (!!value) trigger();
-    // NOTE: takePhoto() is secure to don't run twice 
+    // NOTE: takePhoto() is secure to don't run twice
     // at the same time, make sure this is also so for
     // your code.
   });
@@ -127,7 +127,7 @@ function trigger() {
         new Promise(function(resolve) {
           try {
             const imagePathElements = message1.split('/');
-            const imageName = imagePathElements[imagePathElements.length - 1];
+            const imageName = '/' + imagePathElements[imagePathElements.length - 1];
             dropbox({
               resource: 'files/upload',
               parameters: {
@@ -208,7 +208,7 @@ function trigger() {
     });
 
   }
-  
+
 }
 
 /*
