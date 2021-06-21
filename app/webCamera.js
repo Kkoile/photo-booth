@@ -1,20 +1,20 @@
-/* 
- * This file is part of "photo-booth" 
+/*
+ * This file is part of "photo-booth"
  * Copyright (c) 2018 Philipp Trenz
  *
  * For more information on the project go to
  * <https://github.com/philipptrenz/photo-booth>
- * 
- * This program is free software: you can redistribute it and/or modify  
- * it under the terms of the GNU General Public License as published by  
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, version 3.
  *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License 
+ * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -33,8 +33,8 @@ class Camera {
 	*/
 	initialize(callback) {
         var opts = {
-            width: 1280,
-            height: 720,
+            width: 3840,
+            height: 2160,
             quality: 100,
             delay: 0,
             saveShots: true,
@@ -48,7 +48,7 @@ class Camera {
         callback(true);
 	}
 
-	
+
 
 	isInitialized(){
 		return (this.camera !== undefined);
@@ -75,12 +75,11 @@ class Camera {
 				self.camera = undefined;	// needs to be reinitialized
 				callback(-2, 'connection to camera failed', err);
 				return;
-			} 
+			}
 
 			sharp(data) // resize image to given maxSize
-				.resize(Number(maxImageSize)) // scale width to 1500
 				.toFile(filepath, function(err) {
-					
+
 				if (err) {
 					callback(-3, 'resizing image failed', err)
 				} else {
